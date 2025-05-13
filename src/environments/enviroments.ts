@@ -1,1 +1,1 @@
-export const BE_BASE_URL = 'http://127.0.0.1:8888/laravel-base/laravel-jwt/public/';
+export const BE_BASE_URL = 'http://127.0.0.1:8080/trainersync/trainer-sync-be/public/';

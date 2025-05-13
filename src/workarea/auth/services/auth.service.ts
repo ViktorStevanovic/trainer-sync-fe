@@ -8,43 +8,32 @@ export interface LoginPayload {
 }
 
 export interface LoginResponse {
-  authorization: {
-    token: string;
-    type: string;
-  }
+  token: string;
   user: {
     id: number;
+    email: string;
     name: string;
     surname: string;
-    email: string;
-    user_type_id: number;
-    confirmed_email: boolean;
+    userType: 'admin' | 'trainer' | 'client';
     active: boolean;
   };
 }
 
+
 export const AuthService = {
-  /**
-   * Authenticate user with email/password
-   */
   async login(payload: LoginPayload): Promise<LoginResponse> {
     try {
       const response: AxiosResponse<LoginResponse> = await axios.post(
         '/login',
         payload
       );
-
       return response.data;
     } catch (error) {
       throw new Error('Login failed. Please check your credentials.');
     }
   },
 
-  /**
-   * Logout current user
-   */
   async logout(): Promise<void> {
-    // Add any logout logic here
     localStorage.removeItem('token');
   }
 };

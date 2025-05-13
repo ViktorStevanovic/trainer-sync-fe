@@ -18,10 +18,12 @@ const handleLogin = async () => {
 
   try {
     const response = await AuthService.login(form.value);
-    // Store token
-    localStorage.setItem('token', response.authorization.token);
-    router.push({name: 'users'})
+    console.log(response)
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
 
+
+    router.push({ path: '/dashboard' });
   } catch (error) {
     errorMessage.value = error instanceof Error
       ? error.message
@@ -30,6 +32,7 @@ const handleLogin = async () => {
     loading.value = false;
   }
 };
+
 </script>
 
 <template>
@@ -40,7 +43,7 @@ const handleLogin = async () => {
       </div>
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form class="space-y-6">
+        <form class="space-y-6" @submit.prevent="handleLogin">
           <div>
             <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
             <div class="mt-2">
@@ -62,8 +65,7 @@ const handleLogin = async () => {
 
           <div>
             <button
-              type="button"
-              @submit="handleLogin"
+              type="submit"
               class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
               Sign in
             </button>
