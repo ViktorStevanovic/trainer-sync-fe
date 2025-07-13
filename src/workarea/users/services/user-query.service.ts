@@ -1,17 +1,17 @@
-import apiClient from '@/core/api/axios';
-import type { User } from '../model/user.model';
+import apiClient from '@/core/api/axios'
+import type { SimpleUser, User } from '../model/user.model'
 
 /**
  * Service for managing users
  */
 export const userQueryService = {
-
     /**
-     * Fetches the list of users
-     * @returns
+     *
+     * @returns {Promise<SimpleUser[]>}
      */
-    getUsers() {
-        return apiClient.get('/user');
+    async getUsers(): Promise<SimpleUser[]> {
+        const response = await apiClient.get('/user')
+        return response.data
     },
 
     /**
@@ -19,27 +19,29 @@ export const userQueryService = {
      * @param {number} userId
      * @returns {Promise<User>} user details
      */
-    getUserDetails(userId: number) {
-        return apiClient.get(`/user/${userId}`);
+    async getUserDetails(userId: number): Promise<User> {
+        const response = await apiClient.get(`/user/${userId}`)
+        return response.data // Extract the data here
     },
 
     /**
      * Saves a new user
-     * @param {Object} user User data
+     * @param {User} user User data
      * @returns {Promise<User>} Created user
      */
-    createUser(user: number) {
-        return apiClient.post('/user', user);
+    async createUser(user: User): Promise<User> {
+        const response = await apiClient.post('/user', user)
+        return response.data
     },
 
     /**
      * Updates an existing user
      * @param {number} userId
-     * @param {Object} user Updated User data
+     * @param {User} user Updated User data
      * @returns {Promise<User>} Edited user
      */
-    updateUser(userId: number, user: User) {
-        return apiClient.put(`/user/${userId}`, user);
+    async updateUser(userId: number, user: User): Promise<User> {
+        const response = await apiClient.put(`/user/${userId}`, user)
+        return response.data
     },
-
-};
+}
